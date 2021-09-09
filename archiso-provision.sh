@@ -7,29 +7,28 @@ echo parted
 parted --script /dev/vda mklabel gpt mkpart primary 5MB% 512MB mkpart primary 512MB 100% set 1 boot on set 1 esp on
 
 echo zpool setup
+# zpool create -f -o ashift=12 \
+#     -O acltype=posixacl \
+#     -O relatime=on \
+#     -O xattr=sa \
+#     -O dnodesize=legacy \
+#     -O normalization=formD \
+#     -O mountpoint=none \
+#     -O canmount=off \
+#     -O devices=off \
+#     -R /mnt \
+#     zroot /dev/vda2
+
 zpool create -f -o ashift=12 \
     -O acltype=posixacl \
-    -O relatime=on \
-    -O xattr=sa \
-    -O dnodesize=legacy \
-    -O normalization=formD \
-    -O mountpoint=none \
     -O canmount=off \
-    -O devices=off \
+    -O dnodesize=auto \
+    -O normalization=formD \
+    -O atime=off \
+    -O xattr=sa \
+    -O mountpoint=none \
     -R /mnt \
     zroot /dev/vda2
-
-# zpool create \
-#   -f -o ashift=12 \
-#   -O acltype=posixacl 
-#   -O canmount=off \
-#   -O dnodesize=auto 
-#   -O normalization=formD \
-#   -O atime=off 
-#   -O xattr=sa 
-#   -O mountpoint=none \
-#   -R /mnt zroot /dev/vda2
-
 
 zfs create -o mountpoint=none zroot/data
 zfs create -o mountpoint=none zroot/ROOT
@@ -41,7 +40,7 @@ rm -rf /mnt/*
 zfs mount zroot/ROOT/default
 
 echo cache
-mkdir -p  /mnt/etc/zfs
+mkdir -p /mnt/etc/zfs
 zpool set cachefile=/etc/zfs/zpool.cache zroot
 cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
 
@@ -51,8 +50,8 @@ mkdir /mnt/boot
 mount /dev/vda1 /mnt/boot
 
 echo filesystem table
-genfstab -U -p /mnt >> /mnt/etc/fstab
+genfstab -U -p /mnt >>/mnt/etc/fstab
 
 echo basic system setup
 pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr \
-  vim zsh openssh
+    vim zsh openssh
