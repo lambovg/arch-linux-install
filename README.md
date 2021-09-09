@@ -1,3 +1,3 @@
-# arch ZFS install
+# Archiso ZFS installation
 
 install arch with zfs support
