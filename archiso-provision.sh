@@ -30,13 +30,13 @@ zpool create -f -o ashift=12 \
     -R /mnt \
     zroot /dev/vda2
 
-# zfs create -o mountpoint=none zroot/data
-# zfs create -o mountpoint=none zroot/ROOT
-# zfs create -o mountpoint=/ -o canmount=noauto zroot/ROOT/default
-# zfs create -o mountpoint=/home zroot/data/home
+zfs create -o mountpoint=none zroot/data
+zfs create -o mountpoint=none zroot/ROOT
+zfs create -o mountpoint=/ -o canmount=noauto zroot/ROOT/default
+zfs create -o mountpoint=/home zroot/data/home
 
-zfs create -o canmount=noauto -o mountpoint=/ zroot/rootfs
-zfs create zroot/rootfs/home
+#zfs create -o canmount=noauto -o mountpoint=/ zroot/rootfs
+#zfs create -o mountpoint=/home zroot/rootfs/home
 
 zfs unmount -a
 rm -rf /mnt/*
@@ -56,5 +56,7 @@ echo filesystem table
 genfstab -U -p /mnt >>/mnt/etc/fstab
 
 echo basic system setup
-pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr \
-    vim zsh openssh
+#pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr \
+#    vim zsh openssh
+
+pacstrap /mnt base base-devel grub-efi-x86_64 zsh vim efibootmgr openssh tmux git gnupg rsync wget curl sudo
