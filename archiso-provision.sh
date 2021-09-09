@@ -19,12 +19,24 @@ zpool create -f -o ashift=12 \
     -R /mnt \
     zroot /dev/vda2
 
+# zpool create \
+#   -f -o ashift=12 \
+#   -O acltype=posixacl 
+#   -O canmount=off \
+#   -O dnodesize=auto 
+#   -O normalization=formD \
+#   -O atime=off 
+#   -O xattr=sa 
+#   -O mountpoint=none \
+#   -R /mnt zroot /dev/vda2
+
 zfs create -o mountpoint=none zroot/data
 zfs create -o mountpoint=none zroot/ROOT
 zfs create -o mountpoint=/ -o canmount=noauto zroot/ROOT/default
 zfs create -o mountpoint=/home zroot/data/home
 
 zfs unmount -a
+rm -rf /mnt/*
 zfs mount zroot/ROOT/default
 
 echo cache
@@ -43,4 +55,3 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 echo basic system setup
 pacstrap /mnt base base-devel linux linux-headers linux-firmware grub efibootmgr \
   vim zsh openssh
-  
