@@ -30,6 +30,7 @@ zpool create -f -o ashift=12 \
 #   -O mountpoint=none \
 #   -R /mnt zroot /dev/vda2
 
+
 zfs create -o mountpoint=none zroot/data
 zfs create -o mountpoint=none zroot/ROOT
 zfs create -o mountpoint=/ -o canmount=noauto zroot/ROOT/default
