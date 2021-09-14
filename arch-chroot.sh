@@ -28,6 +28,7 @@ systemctl enable zfs.target zfs-import-cache \
 ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 hwclock --systohc
 echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+echo en_US.UTF-8 UTF-8 > /etc/locale.gen
 locale-gen
 
 echo devKit > /etc/hostname
