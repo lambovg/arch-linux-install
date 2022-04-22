@@ -21,6 +21,6 @@ sed -i -e 's/CheckSpace/#CheckSpace/' /etc/pacman.conf
 pacstrap /mnt base base-devel linux linux-headers linux-firmware \
     grub zsh vim efibootmgr openssh tmux git gnupg rsync wget curl sudo
 
- df -ht
+ df -hT
 
  arch-chroot /mnt
