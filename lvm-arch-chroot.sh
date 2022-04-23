@@ -21,8 +21,9 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 echo en_US.UTF-8 UTF-8 > /etc/locale.gen
 locale-gen
 
-echo devKit-$RANDOM-arch > /etc/hostname
-echo -e '127.0.0.1 localhost\n::1 localhost\n127.0.1.1 devkit' >> /etc/hosts
+HOSTNAME=devKit-$RANDOM-arch
+echo $HOSTNAME > /etc/hostname
+echo -e "127.0.0.1 localhost\n::1 localhost\n127.0.1.1 $HOSTNAME" >> /etc/hosts
 
 groupadd sudo
 useradd -m -G sudo g
